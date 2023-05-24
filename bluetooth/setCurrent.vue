@@ -41,9 +41,9 @@ export default {
       if (!this.bleState.paired) return this.toast('请先配对并初始化设备')
       let currentList = Object.values(this.globalData.deviceState).reduce((a, b) => [...a, Number(b.settingCHL), Number(b.settingCHR)], [])
       console.log(this.globalData.deviceState, currentList, currentList.includes(0))
-      let currentReady = !currentList.includes(0)
+      // let currentReady = !currentList.includes(0)
 
-      if (!currentReady) return this.toast('刺激强度不能设置为0')
+      // if (!currentReady) return this.toast('刺激强度不能设置为0')
 
       let recordId = this.libs.data.random(7)// 代替请求recordId
       await this.setRecord(recordId)

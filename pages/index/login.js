@@ -21,6 +21,7 @@ let login = async () => {
     periodPain: 'a4d3eb8f-bab7-49b6-a2d9-1b6e8be181d8',
     PE: '8aa43396-9283-4eba-88ad-efe30d4ef2cf',
     sunshine: 'a283529e-4703-4381-9dba-1802349278a7',
+    EMX: '5c827919-b938-4c4b-b19f-3b7bc5934c42'
   }[subName]
   globalData.headers = {
     appTerminalPlatform: libs.data.systemInfo.platform,

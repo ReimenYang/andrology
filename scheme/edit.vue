@@ -87,20 +87,23 @@ export default {
 
       this.workoutEdit.channelList.forEach(item => {
         let _detail = schemeDetail.channelList.find(object => object.channel === item.channel) || {}
-        item.labelName = this.channelName[_detail.channel]
+        item.labelName = _detail.name // this.channelName[_detail.channel]
         item.position1 = _detail.position1
         item.position2 = _detail.position2
       })
     },
     initData () {
       // 生成插口名称
-      let channelSettiing = this.workoutEdit.channelList.map(({ channel, splices }) => [this.channelName[channel], splices]).flat()
+      // let channelSettiing = this.workoutEdit.channelList.map(({ channel, splices }) => [this.channelName[channel], splices]).flat()
+      let channelSettiing = this.workoutEdit.channelList.map(item => item.spliceList.map(({ spliceNum }) => this.channelName[item.channel] + spliceNum)).flat()
+      console.log('生成插口名称', channelSettiing)
       // 生成插口属性及列表
       this.spliceList = this.channelName
         .reduce((a, b) => b ? [...a, b + 1, b + 2] : a, [])
         .map(label => {
-          let _index = channelSettiing.findIndex(str => str === label[0])
-          let _used = _index > -1
+          // 四六通道开始：
+          // let _index = channelSettiing.findIndex(str => str === label[0])
+          // let _used = _index > -1
 
           // 没有开启通道，接口2不能设置
           // let disabled = !_used && (label[1] !== '1')
@@ -110,9 +113,13 @@ export default {
           // 是否已选
           // let checked = _used && (label[1] <= channelSettiing[_index + 1])
           // 接口二状态与接口一同步，不能单独设置
-          let checked = _used
-
+          let checked = channelSettiing.includes(label)
           return { label, value: label, disabled, checked, color: 'red', style: 'transform:scale(0.7)' }
+          // 四六通道结束
+
+          // 穿戴设备接口不受限制
+          // let checked = channelSettiing.includes(label)
+          // return { label, value: label, checked, color: 'red', style: 'transform:scale(0.7)' }
         })
       // 生成通道属性及列表
       this.channelConfig = []
