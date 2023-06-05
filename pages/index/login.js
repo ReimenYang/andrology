@@ -39,12 +39,13 @@ let login = async () => {
   // #endif
 
   // 已经有用户信息
-  console.log(userRole, '已经有用户信息', globalData.userInfo)
+  console.log(userRole, phone, '已经有用户信息', globalData.userInfo)
   if (globalData.userInfo) return { statusCode: 201, data: globalData.userInfo }
   // 医院登录
   if (userRole === 'hospital') return { statusCode: 'hospital' }
   // 用户登录
   if (!phone || 11 < phone.length) {
+    // #ifdef APP-PLUS
     phone = libs.data.random(7)
     // phone = 13268125215//罗
     // phone = 18924166730// 红米
@@ -65,6 +66,12 @@ let login = async () => {
     // }
     libs.data.setStorage('phone', phone)
     globalData.headers.phone = phone
+    // #endif
+
+    // #ifdef MP-WEIXIN
+    uni.reLaunch({ url: '/login/loginPhone' })
+    return
+    // #endif
   }
   // 之前ssl生成的公钥，复制的时候要小心不要有空格
   //   const publiukey = `-----BEGIN PUBLIC KEY-----
